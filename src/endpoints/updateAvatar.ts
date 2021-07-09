@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import connection from "../connection";
+import connection from "../data/connection";
 import { getTokenData } from "../services/authenticator";
 
 async function updateAvatar(req: Request, res: Response) {

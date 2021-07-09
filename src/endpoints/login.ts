@@ -1,6 +1,6 @@
 import { compareSync } from "bcryptjs"
 import { Request, Response } from "express"
-import connection from "../connection"
+import connection from "../data/connection"
 
 import { generateToken } from "../services/authenticator"
 import { checkEmail } from "../validations/checkEmail"

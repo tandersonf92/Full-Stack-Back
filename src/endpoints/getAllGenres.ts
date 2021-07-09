@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import connection from "../connection";
+import connection from "../data/connection";
 
 
 export default async function getAllGenres (req:Request,res:Response):Promise<void>  {

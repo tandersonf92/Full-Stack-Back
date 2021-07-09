@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import connection from "../connection";
+import connection from "../data/connection";
 import { getTokenData } from "../services/authenticator";
 
 async function getUserAlbums(req: Request, res: Response): Promise<void> {

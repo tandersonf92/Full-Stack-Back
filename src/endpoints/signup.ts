@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import connection from "../connection";
+import connection from "../data/connection";
 import { checkEmail } from "../validations/checkEmail";
 import { generateToken } from "../services/authenticator";
 import { createHash } from "../services/hashManager";

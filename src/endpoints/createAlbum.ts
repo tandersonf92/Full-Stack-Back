@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import connection from "../connection";
+import connection from "../data/connection";
 import { getTokenData } from "../services/authenticator";
 import { generateId } from "../services/idGenerator";
-import { classroom } from "../types";
+import { classroom } from "../models/types";
 import { dateValidations, isClassNameValid } from "../validations/classValidations";
 // import { isClassNameValid } from "../validations/isValidName";
 
