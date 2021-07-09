@@ -12,4 +12,5 @@ userRouter.post('/login',login)
 userRouter.post('signup',signUp)
 
 userRouter.get('/albums',getUserAlbums)
+
 userRouter.put('/user/avatar',updateAvatar)
