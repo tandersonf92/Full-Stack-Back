@@ -3,26 +3,26 @@ import connection from "../connection";
 
 
 
-export default async function getMusicByTitle(req: Request, res: Response) {
+export default async function searchMusicByAuthor(req: Request, res: Response) {
     try {
         const authorization = req.headers.authorization
         if (!authorization) {
             throw new Error("The field 'authorization is empty,please fill it.")
         }
 
-        const music_title = req.params.music_title
-        console.log('music_title: ', music_title)
-        const [music] = await connection.raw(`
+        const author = req.query.author
+
+        const [user] = await connection.raw(`
         SELECT * FROM MUSIC
-        WHERE music_title LIKE '%${music_title}%'`)
-        console.log('music:', music)
-        if (!music) {
+        WHERE music_author = '${author}'`)
+        console.log('user:', user)
+        if (!user) {
             res.status(409).send({
-                message: "music not found"
+                message: "user not found"
             })
         }
         res.status(200).send({
-            message: music
+            message: user
         })
     } catch (error) {
         console.error(error);

@@ -9,11 +9,12 @@ import createMusic from "./endpoints/createMusic";
 import getAllGenres from "./endpoints/getAllGenres";
 import getAllMusics from "./endpoints/getAllMusics";
 import getUserAlbums from "./endpoints/getUserAlbums";
-import getUserById from "./endpoints/getUserById";
 import getMusicById from "./endpoints/getMusicById";
-import getMusicByTitle from "./endpoints/getMusicByTitle";
+import searchMusicByTitle from "./endpoints/searchMusicByTitle";
 import updateAvatar from "./endpoints/updateAvatar";
 import updateAlbumCover from "./endpoints/updateAlbumCover";
+import getMusicByAuthor from "./endpoints/searchMusicByAuthor";
+import searchMusicByAuthor from "./endpoints/searchMusicByAuthor";
 
  
 export type Class = {
@@ -43,23 +44,23 @@ app.post("/user/login", login);
 
 app.post("/user/signup", signUp);
 
-app.post('/music/newGenre',createGenre)
+app.post('/music/createGenre',createGenre)
 
-app.post('/album/newAlbum',createAlbum)
+app.post('/album/createAlbum',createAlbum)
 
-app.post('/music/newMusic',createMusic)
+app.post('/music/createMusic',createMusic)
 
-app.get('/music/genre/all',getAllGenres)
+app.get('/music/genre',getAllGenres)
 
 app.get('/music/all',getAllMusics)
 
 app.get('/user/albums',getUserAlbums)
 
-app.get('/user/id/:user_id',getUserById)
+app.get('/music/:music_id',getMusicById)
 
-app.get('/music/id/:music_id',getMusicById)
+app.get('/music/search-by-title',searchMusicByTitle)
 
-app.get('/music/title/:music_title',getMusicByTitle)
+app.get('/music/search-by-author',searchMusicByAuthor)
 
 app.put('/user/avatar',updateAvatar)
 
