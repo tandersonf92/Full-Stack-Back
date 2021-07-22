@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import connection from "../connection";
+import connection from "../data/connection";
 import { getTokenData } from "../services/authenticator";
 import { generateId } from "../services/idGenerator";
-import { classroom } from "../types";
-import { dateValidations, isClassNameValid } from "../validations/classValidations";
-// import { isClassNameValid } from "../validations/isValidName";
 
 
 export default async function (req: Request, res: Response): Promise<void> {
@@ -14,13 +11,15 @@ export default async function (req: Request, res: Response): Promise<void> {
         if (!authorization) {
             throw new Error("The field 'authorization is empty,please fill it.")
         }
-
-        let { music_title, music_file, genre_id, album_id } = req.body
+        let { music_title, music_file,music_author, genre_id, album_id } = req.body
         if (!music_title) {
             throw new Error("music_title is missing")
         }
         if (!music_file) {
             throw new Error("music_file is missing")
+        }
+        if (!music_author) {
+            throw new Error("music_author is missing")
         }
         if (!genre_id) {
             throw new Error("genre_id is missing")
@@ -28,7 +27,6 @@ export default async function (req: Request, res: Response): Promise<void> {
         if (!album_id) {
             throw new Error("album_id is missing")
         }
-        //  isClassNameValid(name)
         //  dateValidations(file,genre_id)
 
         //TESTARRRRRR O ALBUM ID VER SE EXISTE
@@ -37,9 +35,10 @@ export default async function (req: Request, res: Response): Promise<void> {
             .where({ album_id })
         if (!genres) {
             res.statusCode = 400
-            throw new Error("This album doesn't exist")
+            throw new Error("This music_genre doesn't exist")
         }
         // FAZER 1 CHECK PRA SE HOUVER A MUSICA, FALAR QUE JA EXISTE.!!!!!!!!!!!!!!!!
+        console.log("2")
 
 
         const [thisMusicExists] = await connection('MUSIC')
@@ -48,42 +47,44 @@ export default async function (req: Request, res: Response): Promise<void> {
             res.statusCode = 409
             throw new Error("This music already exists")
         }
+        console.log("3")
 
 
         //TESTARRRRRR O GENDERSSSS  VER SE EXISTE
-        const [allGenresForTest] = await connection('GENDER').select() 
+        const [allGenresForTest] = await connection('GENRE').select() 
         console.log(allGenresForTest)
-        const [thisGenreExists] = await connection('GENDER')
+        const [thisGenreExists] = await connection('GENRE')
             .where({ genre_id })
         if (!thisGenreExists) {
             res.statusCode = 409
-            throw new Error("This gender doesn't exist")
+            throw new Error("This GENRE doesn't exist")
         }
 
+        console.log("4")
 
-        for (let genre of genre_id) {
-            console.log(genre)
-            console.log(genre_id)
-            let result = await connection.raw(`
+        // for (let genre of genre_id) {
+            let insertResult = await connection.raw(`
             INSERT INTO MUSIC_GENRES 
             ( related_music_id,related_genre_id )
-            VALUES ("${album_id}","${genre}")
+            VALUES ("${album_id}","${genre_id}")
             `)
+        // }
+        console.log('result::::::::::::::;',insertResult)
 
-        }
-
+        console.log("5")
 
         const token = getTokenData(authorization)
-        const music_author = token.id
+        const music_user = token.id
         let music_id = generateId()
         let date = new Date().toISOString().slice(0, 10)
 
 
 
-        const result = await connection.raw(`
-       INSERT  INTO MUSIC (music_id,music_title,music_author,date,music_file,music_album_id) 
-       VALUES ("${music_id}","${music_title}","${music_author}","${date}","${music_file}","${album_id}");`)
-        res.status(200).send({
+        const [result] = await connection.raw(`
+       INSERT INTO MUSIC (music_id,music_title,music_author,date,music_file,music_album_id,music_user) 
+       VALUES ("${music_id}","${music_title}","${music_author}","${date}","${music_file}","${album_id}","${music_user}");`)
+       console.log('RESULT DA CREATE: ',result)
+       res.status(200).send({
             message: "music created",
 
         })

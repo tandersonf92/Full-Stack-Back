@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
-import connection from "../connection";
+import connection from "../data/connection";
 import { generateId } from "../services/idGenerator";
-import { classroom } from "../types";
-import { dateValidations, isClassNameValid } from "../validations/classValidations";
-// import { isClassNameValid } from "../validations/isValidName";
+import { classroom } from "../models/types";
 
 
 export default async function createGenre(req:Request,res:Response):Promise<void>  {

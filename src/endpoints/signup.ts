@@ -30,6 +30,13 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
          throw new Error("This email already exists")
       }
 
+      const [thisNicknameExist] = await connection('MUSIC_USER')
+         .where({ nickname })
+      if (thisNicknameExist) {
+         res.statusCode = 409
+         throw new Error("This nickname already exists")
+      }
+
       checkEmail(email)
 
       const id: string = generateId()

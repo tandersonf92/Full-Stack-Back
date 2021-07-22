@@ -2,14 +2,11 @@ import { Request, Response } from "express";
 import connection from "../data/connection";
 import { getTokenData } from "../services/authenticator";
 import { generateId } from "../services/idGenerator";
-import { classroom } from "../models/types";
-import { dateValidations, isClassNameValid } from "../validations/classValidations";
-// import { isClassNameValid } from "../validations/isValidName";
-
 
 export default async function createAlbum(req:Request,res:Response):Promise<void>  {
     try {
        let album_name = req.body.album_name
+       let album_cover = req.body.album_cover
        if (!album_name) {
          throw new Error("album is missing")
      }
@@ -30,8 +27,8 @@ export default async function createAlbum(req:Request,res:Response):Promise<void
      const music_author = token.id
     const id = generateId()
        const [result] = await connection.raw(`
-       INSERT INTO ALBUM (album_id,album_name,album_author) 
-       VALUES ("${id}","${album_name}","${music_author}");`)
+       INSERT INTO ALBUM (album_id,album_name,album_author,album_cover) 
+       VALUES ("${id}","${album_name}","${music_author}","${album_cover}");`)
        console.log("Result: ",result)
        res.status(200).send({
           message: "album created",

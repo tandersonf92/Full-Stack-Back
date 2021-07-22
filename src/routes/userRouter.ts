@@ -9,7 +9,7 @@ export const userRouter = Router()
 
 
 userRouter.post('/login',login)
-userRouter.post('signup',signUp)
+userRouter.post('/signup',signUp)
 
 userRouter.get('/albums',getUserAlbums)
 

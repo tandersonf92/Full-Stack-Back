@@ -31,7 +31,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       console.log('token: ',token)
       res.send({
          message: "Successfully Logged In ",
-         accessToken: token
+         token: token
       })
    } catch (err) {
 
