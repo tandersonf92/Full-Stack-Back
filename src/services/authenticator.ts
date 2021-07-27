@@ -17,7 +17,7 @@ export function generateToken(id: string): string {
         ,
         process.env.JWT_KEY!,
         {
-            expiresIn: "10h"
+            expiresIn: "20d"
         }
     )
 }
